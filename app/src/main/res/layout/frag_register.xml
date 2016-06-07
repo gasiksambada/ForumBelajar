@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <EditText
+        android:layout_width="384dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/Username"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="Username"
+        android:hint="Username"
+        android:gravity="center_horizontal" />
+
+    <EditText
+        android:layout_width="384dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:id="@+id/password"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:hint="Password"
+        android:contentDescription="Password" />
+
+    <EditText
+        android:layout_width="384dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/no_id"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="No. Id LPIA"
+        android:hint="No. Id LPIA"
+        android:gravity="center_horizontal" />
+
+    <EditText
+        android:layout_width="384dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tempat_lahir"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="Tempat Lahir"
+        android:hint="Tempat Lahir"
+        android:gravity="center_horizontal" />
+
+    <EditText
+        android:layout_width="384dp"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/tanggal_lahir"
+        android:contentDescription="Tanggal Lahir"
+        android:hint="Tanggal Lahir"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:layout_width="384dp"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/no_telp"
+        android:contentDescription="No Telpon/HP"
+        android:hint="No Telpon/HP"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:layout_width="384dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPostalAddress"
+        android:id="@+id/alamat"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="Alamat"
+        android:hint="Alamat"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_weight="0.80" />
+
+    <Button
+        android:layout_width="386dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Register"
+        android:id="@+id/register"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/holo_orange_dark"
+        android:textColor="#ffffff" />
+
+</LinearLayout>

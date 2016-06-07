@@ -30,7 +30,8 @@
         android:text="Register"
         android:id="@+id/register"
         android:layout_gravity="center_horizontal"
-        android:background="@android:color/holo_orange_dark" />
+        android:background="@android:color/holo_orange_dark"
+        android:textColor="#ffffff" />
 
     <Button
         android:layout_width="384dp"
@@ -39,5 +40,6 @@
         android:text="Login"
         android:id="@+id/login"
         android:layout_gravity="center_horizontal"
-        android:background="@android:color/holo_blue_light" />
+        android:background="@android:color/holo_blue_light"
+        android:textColor="#ffffff" />
 </LinearLayout>

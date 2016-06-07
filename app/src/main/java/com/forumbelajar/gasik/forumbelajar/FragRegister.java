@@ -8,18 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by Gasik on 6/6/2016.
+ * Created by obitogan on 6/7/2016.
  */
-public class FragLogin extends Fragment {
+public class FragRegister extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.frag_login, container, false);
+        return inflater.inflate(R.layout.frag_register, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActivity().setTitle("Login");
+        getActivity().setTitle("Register");
     }
 }
