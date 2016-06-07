@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         FragStart frag_start = new FragStart();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.main_fragment, frag_start, "start");
+        transaction.addToBackStack("addstart");
         transaction.commit();
     }
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         FragLogin frag_login = new FragLogin();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.main_fragment, frag_login, "login");
+        transaction.addToBackStack("addlogin");
         transaction.commit();
     }
 }
