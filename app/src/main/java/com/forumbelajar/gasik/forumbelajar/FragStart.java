@@ -30,6 +30,7 @@ public class FragStart extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         comm = (Communicator) getActivity();
         button = (Button) getActivity().findViewById(R.id.login);
+        button.setOnClickListener(this);
     }
 
     @Override
