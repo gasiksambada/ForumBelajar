@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="Register"
-        android:id="@+id/register"
+        android:id="@+id/submit_register"
         android:layout_gravity="center_horizontal"
         android:background="@android:color/holo_orange_dark"
         android:textColor="#ffffff" />

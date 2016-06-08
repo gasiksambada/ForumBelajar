@@ -12,6 +12,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+
 public class MainActivity extends AppCompatActivity implements Communicator {
 
     FragmentManager manager;
@@ -62,9 +64,9 @@ public class MainActivity extends AppCompatActivity implements Communicator {
     public void goTo(String data) {
         switch (data) {
             case "SecondActivity":
-                Log.d("notif","masuk cuy");
-//                Intent intent = new Intent(this, SecondActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                startActivity(intent);
+//                Log.d("notif", "masuk cuy");
                 break;
         }
     }

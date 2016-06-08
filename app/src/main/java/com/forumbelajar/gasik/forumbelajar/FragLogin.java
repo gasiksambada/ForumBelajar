@@ -24,7 +24,7 @@ public class FragLogin extends Fragment {
         super.onActivityCreated(savedInstanceState);
         getActivity().setTitle("Login");
         comm = (Communicator) getActivity();
-        Button login = (Button) getActivity().findViewById(R.id.login);
+        Button login = (Button) getActivity().findViewById(R.id.submit_login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
