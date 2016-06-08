@@ -7,7 +7,7 @@
     <EditText
         android:layout_width="384dp"
         android:layout_height="wrap_content"
-        android:id="@+id/Username"
+        android:id="@+id/username"
         android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal"
         android:contentDescription="Username"

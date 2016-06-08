@@ -1,12 +1,11 @@
 package com.forumbelajar.gasik.forumbelajar;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.Window;
 
 /**
  * Created by Gasik on 6/8/2016.
@@ -19,7 +18,6 @@ public class SecondActivity extends ActionBarActivity implements android.support
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.second_activity);
 
         tabsviewPager = (ViewPager) findViewById(R.id.pager);

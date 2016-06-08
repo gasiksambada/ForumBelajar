@@ -2,8 +2,10 @@ package com.forumbelajar.gasik.forumbelajar;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -53,6 +55,17 @@ public class MainActivity extends AppCompatActivity implements Communicator {
             goto_login();
         }else if (data.equals("register_page")){
             goto_register();
+        }
+    }
+
+    @Override
+    public void goTo(String data) {
+        switch (data) {
+            case "SecondActivity":
+                Log.d("notif","masuk cuy");
+//                Intent intent = new Intent(this, SecondActivity.class);
+//                startActivity(intent);
+                break;
         }
     }
 
