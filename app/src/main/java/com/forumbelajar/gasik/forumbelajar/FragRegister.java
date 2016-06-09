@@ -58,6 +58,7 @@ public class FragRegister extends Fragment {
                         iTanggalLahir.setText(""+selectedday+"/"+selectedmonth+"/"+selectedyear);
                     }
                 },mYear, mMonth, mDay);
+//                test
                 mDatePicker.getDatePicker().setCalendarViewShown(false);
                 mDatePicker.setTitle("Select date");
                 mDatePicker.show();
