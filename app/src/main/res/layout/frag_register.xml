@@ -7,6 +7,8 @@
     <EditText
         android:layout_width="384dp"
         android:layout_height="wrap_content"
+        android:inputType="textVisiblePassword|textNoSuggestions"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         android:id="@+id/username"
         android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal"
@@ -50,14 +52,14 @@
     <EditText
         android:layout_width="384dp"
         android:layout_height="wrap_content"
-        android:inputType="date"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:id="@+id/tanggal_lahir"
         android:contentDescription="Tanggal Lahir"
         android:hint="Tanggal Lahir"
         android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:descendantFocusability="blocksDescendants" />
 
     <EditText
         android:layout_width="384dp"
