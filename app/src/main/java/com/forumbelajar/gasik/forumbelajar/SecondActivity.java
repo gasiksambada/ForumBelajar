@@ -88,4 +88,9 @@ public class SecondActivity extends ActionBarActivity implements android.support
                 break;
         }
     }
+
+    @Override
+    public void createSession(String key, String Value) {
+
+    }
 }

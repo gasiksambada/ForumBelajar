@@ -2,26 +2,23 @@ package com.forumbelajar.gasik.forumbelajar;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
-
-import com.firebase.client.Firebase;
 
 public class MainActivity extends AppCompatActivity implements Communicator {
 
     FragmentManager manager;
+    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -34,12 +31,6 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         transaction.addToBackStack("addstart");
         transaction.commit();
     }
-
-//    @Override
-//    public boolean onSupportNavigateUp(){
-//        finish();
-//        return true;
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -66,9 +57,16 @@ public class MainActivity extends AppCompatActivity implements Communicator {
             case "SecondActivity":
                 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
                 startActivity(intent);
-//                Log.d("notif", "masuk cuy");
                 break;
         }
+    }
+
+    @Override
+    public void createSession(String key, String Value) {
+        sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(key, Value);
+        editor.commit();
     }
 
     public void goto_login() {

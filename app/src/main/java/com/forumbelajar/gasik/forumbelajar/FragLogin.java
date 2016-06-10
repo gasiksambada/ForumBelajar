@@ -14,8 +14,6 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -79,6 +77,7 @@ public class FragLogin extends Fragment {
                             fPassword = jsonObject.getString("password");
                             if(fPassword.equals(vPassword)){
                                 Toast.makeText(getActivity(), "Login success", Toast.LENGTH_SHORT).show();
+                                comm.createSession("username",vUsername);
                                 comm.goTo("SecondActivity");
                             }else{
                                 Toast.makeText(getActivity(), "Wrong Password!", Toast.LENGTH_SHORT).show();
