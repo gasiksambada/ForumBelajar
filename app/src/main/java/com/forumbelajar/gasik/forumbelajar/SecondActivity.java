@@ -1,6 +1,7 @@
 package com.forumbelajar.gasik.forumbelajar;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -10,7 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 /**
  * Created by Gasik on 6/8/2016.
  */
-public class SecondActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener {
+public class SecondActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener,Communicator {
 
     private ViewPager tabsviewPager;
     private Tabsadapter mTabsAdapter;
@@ -19,6 +20,7 @@ public class SecondActivity extends ActionBarActivity implements android.support
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.second_activity);
+        setTitle("Forum Belajar");
 
         tabsviewPager = (ViewPager) findViewById(R.id.pager);
 
@@ -70,5 +72,20 @@ public class SecondActivity extends ActionBarActivity implements android.support
     @Override
     public void onTabReselected(ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
 
+    }
+
+    @Override
+    public void respond(String data) {
+
+    }
+
+    @Override
+    public void goTo(String data) {
+        switch (data) {
+            case "AddquestionActivity":
+                Intent intent = new Intent(SecondActivity.this, AddquestionActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

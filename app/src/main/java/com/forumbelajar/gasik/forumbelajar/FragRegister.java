@@ -31,7 +31,7 @@ import java.util.Map;
 public class FragRegister extends Fragment {
     Communicator comm;
     Firebase accountRef;
-    String vUsername,vPassword,vIdLPIA,vTempatLahir,vNoTelp,vAlamat;
+    String vUsername,vPassword,vIdLPIA,vTempatLahir,vNoTelp,vAlamat,vTanggalLahir;
 
     @Nullable
     @Override
@@ -45,9 +45,9 @@ public class FragRegister extends Fragment {
         getActivity().setTitle("Register");
 
         final EditText iTanggalLahir = (EditText) getActivity().findViewById(R.id.tanggal_lahir);
-        iTanggalLahir.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        iTanggalLahir.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
+            public void onClick(View v) {
                 Calendar mcurrentDate= Calendar.getInstance();
                 int mYear = mcurrentDate.get(Calendar.YEAR);
                 int mMonth = mcurrentDate.get(Calendar.MONTH);
@@ -58,7 +58,6 @@ public class FragRegister extends Fragment {
                         iTanggalLahir.setText(""+selectedday+"/"+selectedmonth+"/"+selectedyear);
                     }
                 },mYear, mMonth, mDay);
-//                test
                 mDatePicker.getDatePicker().setCalendarViewShown(false);
                 mDatePicker.setTitle("Select date");
                 mDatePicker.show();
@@ -90,6 +89,7 @@ public class FragRegister extends Fragment {
         EditText iTempatLahir = (EditText) getActivity().findViewById(R.id.tempat_lahir);
         EditText iNoTelp = (EditText) getActivity().findViewById(R.id.no_telp);
         EditText iAlamat = (EditText) getActivity().findViewById(R.id.alamat);
+        EditText iTanggalLahir = (EditText) getActivity().findViewById(R.id.tanggal_lahir);
 
         vUsername = iUsername.getText().toString();
         vPassword = iPassword.getText().toString();
@@ -97,6 +97,7 @@ public class FragRegister extends Fragment {
         vTempatLahir = iTempatLahir.getText().toString();
         vNoTelp = iNoTelp.getText().toString();
         vAlamat = iAlamat.getText().toString();
+        vTanggalLahir = iTanggalLahir.getText().toString();
         if(vUsername.equals("")){
             Toast.makeText(getActivity(), "Please input username", Toast.LENGTH_SHORT).show();
             iUsername.requestFocus();
@@ -123,6 +124,7 @@ public class FragRegister extends Fragment {
                     accountData.child("tempat_lahir").setValue(vTempatLahir);
                     accountData.child("no_telp").setValue(vNoTelp);
                     accountData.child("alamat").setValue(vAlamat);
+                    accountData.child("tanggal_lahir").setValue(vTanggalLahir);
                     Toast.makeText(getActivity(), "Success register account", Toast.LENGTH_SHORT).show();
                     comm = (Communicator) getActivity();
                     comm.respond("login_page");
@@ -133,7 +135,7 @@ public class FragRegister extends Fragment {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Error!", Toast.LENGTH_SHORT).show();
             }
         });
 

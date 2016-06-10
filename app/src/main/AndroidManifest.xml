@@ -3,6 +3,7 @@
     package="com.forumbelajar.gasik.forumbelajar">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />﻿
 
     <application
         android:allowBackup="true"
@@ -17,6 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SecondActivity">
+        </activity>
+        <activity android:name=".AddquestionActivity">
         </activity>
     </application>
 
