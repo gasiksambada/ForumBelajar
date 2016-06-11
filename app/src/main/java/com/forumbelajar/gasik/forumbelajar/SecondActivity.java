@@ -23,9 +23,7 @@ public class SecondActivity extends ActionBarActivity implements android.support
         setTitle("Forum Belajar");
 
         tabsviewPager = (ViewPager) findViewById(R.id.pager);
-
         mTabsAdapter = new Tabsadapter(getSupportFragmentManager());
-
         tabsviewPager.setAdapter(mTabsAdapter);
 
         getSupportActionBar().setHomeButtonEnabled(false);

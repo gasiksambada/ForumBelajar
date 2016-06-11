@@ -3,6 +3,8 @@ package com.forumbelajar.gasik.forumbelajar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -15,7 +17,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+import com.firebase.client.utilities.Base64;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +30,7 @@ public class AddquestionActivity extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE = 1;
     ImageView photo;
     Button upload_photo,submit_question;
-    String vTitleQuestion,vQuestion,vUsername;
+    String vTitleQuestion,vQuestion,vUsername,vPhoto;
     EditText iTitleQuestion,iQuestion;
     Firebase accountRef;
     public static final String MyPREFERENCES = "MyPrefs" ;
@@ -50,7 +54,7 @@ public class AddquestionActivity extends AppCompatActivity {
         });
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        vUsername = sharedpreferences.getString("username", "kosong");//"No name defined" is the default value.
+        vUsername = sharedpreferences.getString("username", "");//"No name defined" is the default value.
 
         iTitleQuestion = (EditText) this.findViewById(R.id.title_question);
         iQuestion = (EditText) this.findViewById(R.id.question);
@@ -63,12 +67,24 @@ public class AddquestionActivity extends AppCompatActivity {
                 vQuestion = iQuestion.getText().toString();
                 accountRef = new Firebase("https://forum-belajar.firebaseio.com/questions/");
 
+                ImageView iPhoto = (ImageView)findViewById(R.id.photo);
+                BitmapDrawable drawable = (BitmapDrawable) iPhoto.getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG,100,bos);
+                byte[] bb = bos.toByteArray();
+                vPhoto = Base64.encodeBytes(bb);
+
                 Map<String, String> dataQuestion = new HashMap<>();
                 dataQuestion.put("title", vTitleQuestion);
                 dataQuestion.put("question", vQuestion);
                 dataQuestion.put("username", vUsername);
+                dataQuestion.put("photo", vPhoto);
                 accountRef.push().setValue(dataQuestion);
                 Toast.makeText(v.getContext(), "Success add question", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(AddquestionActivity.this, SecondActivity.class);
+                startActivity(intent);
             }
         });
     }
