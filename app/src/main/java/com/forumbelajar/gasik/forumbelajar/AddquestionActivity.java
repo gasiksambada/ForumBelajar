@@ -50,16 +50,9 @@ public class AddquestionActivity extends AppCompatActivity implements View.OnCli
         photo2 = (ImageView) this.findViewById(R.id.photo2);
         photo1.setOnClickListener(this);
         photo2.setOnClickListener(this);
-//        photo1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
-//            }
-//        });
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        vUsername = sharedpreferences.getString("username", "");//"No name defined" is the default value.
+        vUsername = sharedpreferences.getString("username", "");
 
         iTitleQuestion = (EditText) this.findViewById(R.id.title_question);
         iQuestion = (EditText) this.findViewById(R.id.question);
@@ -72,8 +65,12 @@ public class AddquestionActivity extends AppCompatActivity implements View.OnCli
                 vQuestion = iQuestion.getText().toString();
                 accountRef = new Firebase("https://forum-belajar.firebaseio.com/questions/");
 
+
                 vPhoto1 = convertImg(R.id.photo1);
                 vPhoto2 = convertImg(R.id.photo2);
+
+                Long dateCreated = System.currentTimeMillis()/1000;
+                Long Priority = 0-(dateCreated);
 
                 Map<String, String> dataQuestion = new HashMap<>();
                 dataQuestion.put("title", vTitleQuestion);
@@ -81,7 +78,10 @@ public class AddquestionActivity extends AppCompatActivity implements View.OnCli
                 dataQuestion.put("username", vUsername);
                 dataQuestion.put("photo_1", vPhoto1);
                 dataQuestion.put("photo_2", vPhoto2);
-                accountRef.push().setValue(dataQuestion);
+                dataQuestion.put("datecreated", dateCreated.toString());
+                Firebase question = accountRef.push();
+                question.setValue(dataQuestion);
+                question.setPriority(Priority);
                 Toast.makeText(v.getContext(), "Success add question", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(AddquestionActivity.this, SecondActivity.class);
@@ -130,11 +130,14 @@ public class AddquestionActivity extends AppCompatActivity implements View.OnCli
     public String convertImg(int Resources) {
         ImageView iPhoto = (ImageView)findViewById(Resources);
         BitmapDrawable drawable = (BitmapDrawable) iPhoto.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,bos);
-        byte[] bb = bos.toByteArray();
-        String vPhoto = Base64.encodeBytes(bb);
-        return vPhoto;
+        if(drawable != null){
+            Bitmap bitmap = drawable.getBitmap();
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG,100,bos);
+            byte[] bb = bos.toByteArray();
+            String vPhoto = Base64.encodeBytes(bb);
+            return vPhoto;
+        }
+        return "";
     }
 }

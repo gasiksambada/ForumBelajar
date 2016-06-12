@@ -24,4 +24,5 @@
     <string name="Score">Score</string>
     <string name="DefaultScore">0</string>
     <string name="ChoosePhoto">Choose Photo</string>
+    <string name="YourAnswerHere">Your Answer Here</string>
 </resources>

@@ -19,13 +19,14 @@
         android:layout_height="150dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="-75dp">
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/ProfilePicture"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/profile"
-        android:contentDescription="@string/ProfilePicture" />
+        android:contentDescription="@string/ProfilePicture"
+        android:src="@drawable/profile"
+        android:background="@drawable/rounded"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -148,13 +149,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrollView"
-        android:layout_gravity="center_horizontal" >
+        android:fillViewport="true">
 
         <ListView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/listView2" />
+            android:id="@+id/list_your_question" />
     </ScrollView>
 
 </LinearLayout>

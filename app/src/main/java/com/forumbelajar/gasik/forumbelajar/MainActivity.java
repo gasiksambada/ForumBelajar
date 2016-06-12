@@ -69,6 +69,11 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         editor.commit();
     }
 
+    @Override
+    public String getSession() {
+        return null;
+    }
+
     public void goto_login() {
         FragLogin frag_login = new FragLogin();
         FragmentTransaction transaction = manager.beginTransaction();

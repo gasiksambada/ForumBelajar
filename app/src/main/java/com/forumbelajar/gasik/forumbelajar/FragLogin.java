@@ -42,10 +42,10 @@ public class FragLogin extends Fragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                loginData();
-                Toast.makeText(getActivity(), "Login success", Toast.LENGTH_SHORT).show();
-                comm.createSession("username",vUsername);
-                comm.goTo("SecondActivity");
+                loginData();
+//                Toast.makeText(getActivity(), "Login success", Toast.LENGTH_SHORT).show();
+//                comm.createSession("username",vUsername);
+//                comm.goTo("SecondActivity");
             }
         });
     }

@@ -1,12 +1,15 @@
 package com.forumbelajar.gasik.forumbelajar;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.Toast;
 
 /**
  * Created by Gasik on 6/8/2016.
@@ -15,12 +18,19 @@ public class SecondActivity extends ActionBarActivity implements android.support
 
     private ViewPager tabsviewPager;
     private Tabsadapter mTabsAdapter;
+    private String vUsername = "noname";
+
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.second_activity);
         setTitle("Forum Belajar");
+
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        vUsername = sharedpreferences.getString("username", "");
 
         tabsviewPager = (ViewPager) findViewById(R.id.pager);
         mTabsAdapter = new Tabsadapter(getSupportFragmentManager());
@@ -90,5 +100,10 @@ public class SecondActivity extends ActionBarActivity implements android.support
     @Override
     public void createSession(String key, String Value) {
 
+    }
+
+    @Override
+    public String getSession() {
+        return vUsername;
     }
 }
