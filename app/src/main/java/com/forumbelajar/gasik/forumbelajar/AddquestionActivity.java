@@ -26,13 +26,15 @@ import java.util.Map;
 /**
  * Created by Gasik on 6/10/2016.
  */
-public class AddquestionActivity extends AppCompatActivity {
+public class AddquestionActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int RESULT_LOAD_IMAGE = 1;
-    ImageView photo;
-    Button upload_photo,submit_question;
-    String vTitleQuestion,vQuestion,vUsername,vPhoto;
+    ImageView photo1,photo2;
+    Button submit_question;
+    String vTitleQuestion,vQuestion,vUsername,vPhoto1,vPhoto2;
     EditText iTitleQuestion,iQuestion;
     Firebase accountRef;
+    int photoid;
+
     public static final String MyPREFERENCES = "MyPrefs" ;
     SharedPreferences sharedpreferences;
 
@@ -44,14 +46,17 @@ public class AddquestionActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        upload_photo = (Button) this.findViewById(R.id.upload_photo);
-        upload_photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
-            }
-        });
+        photo1 = (ImageView) this.findViewById(R.id.photo1);
+        photo2 = (ImageView) this.findViewById(R.id.photo2);
+        photo1.setOnClickListener(this);
+        photo2.setOnClickListener(this);
+//        photo1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+//            }
+//        });
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         vUsername = sharedpreferences.getString("username", "");//"No name defined" is the default value.
@@ -67,19 +72,15 @@ public class AddquestionActivity extends AppCompatActivity {
                 vQuestion = iQuestion.getText().toString();
                 accountRef = new Firebase("https://forum-belajar.firebaseio.com/questions/");
 
-                ImageView iPhoto = (ImageView)findViewById(R.id.photo);
-                BitmapDrawable drawable = (BitmapDrawable) iPhoto.getDrawable();
-                Bitmap bitmap = drawable.getBitmap();
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG,100,bos);
-                byte[] bb = bos.toByteArray();
-                vPhoto = Base64.encodeBytes(bb);
+                vPhoto1 = convertImg(R.id.photo1);
+                vPhoto2 = convertImg(R.id.photo2);
 
                 Map<String, String> dataQuestion = new HashMap<>();
                 dataQuestion.put("title", vTitleQuestion);
                 dataQuestion.put("question", vQuestion);
                 dataQuestion.put("username", vUsername);
-                dataQuestion.put("photo", vPhoto);
+                dataQuestion.put("photo_1", vPhoto1);
+                dataQuestion.put("photo_2", vPhoto2);
                 accountRef.push().setValue(dataQuestion);
                 Toast.makeText(v.getContext(), "Success add question", Toast.LENGTH_SHORT).show();
 
@@ -94,7 +95,7 @@ public class AddquestionActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == RESULT_LOAD_IMAGE &&  data != null){
             Uri selectedImage = data.getData();
-            photo = (ImageView) this.findViewById(R.id.photo);
+            ImageView photo = (ImageView) this.findViewById(photoid);
             photo.setImageURI(selectedImage);
         }
     }
@@ -107,5 +108,33 @@ public class AddquestionActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        switch (v.getId() /*to get clicked view id**/) {
+            case R.id.photo1:
+                photoid = R.id.photo1;
+                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+                break;
+            case R.id.photo2:
+                photoid = R.id.photo2;
+                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public String convertImg(int Resources) {
+        ImageView iPhoto = (ImageView)findViewById(Resources);
+        BitmapDrawable drawable = (BitmapDrawable) iPhoto.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,bos);
+        byte[] bb = bos.toByteArray();
+        String vPhoto = Base64.encodeBytes(bb);
+        return vPhoto;
     }
 }

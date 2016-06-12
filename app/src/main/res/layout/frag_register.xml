@@ -1,54 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:gravity="center_vertical|center_horizontal"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    >
 
     <EditText
-        android:layout_width="384dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textVisiblePassword|textNoSuggestions"
         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         android:id="@+id/username"
         android:layout_gravity="center_horizontal"
-        android:contentDescription="Username"
-        android:hint="Username"
+        android:hint="@string/Username"
         android:gravity="center_horizontal" />
 
     <EditText
-        android:layout_width="384dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:id="@+id/password"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:hint="Password"
-        android:contentDescription="Password" />
+        android:hint="@string/Password" />
 
     <EditText
-        android:layout_width="384dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/no_id"
         android:layout_gravity="center_horizontal"
-        android:contentDescription="No. Id LPIA"
-        android:hint="No. Id LPIA"
+        android:hint="@string/IdLPIA"
         android:gravity="center_horizontal" />
 
     <EditText
-        android:layout_width="384dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tempat_lahir"
         android:layout_gravity="center_horizontal"
-        android:contentDescription="Tempat Lahir"
-        android:hint="Tempat Lahir"
+        android:hint="@string/BirthPlace"
         android:gravity="center_horizontal" />
 
     <EditText
-        android:layout_width="384dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tanggal_lahir"
-        android:contentDescription="Tanggal Lahir"
-        android:hint="Tanggal Lahir"
+        android:hint="@string/BirthDate"
         android:gravity="center_horizontal"
         android:layout_gravity="center_horizontal"
         android:inputType="none"
@@ -56,31 +55,28 @@
         android:focusable="false" />
 
     <EditText
-        android:layout_width="384dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:id="@+id/no_telp"
-        android:contentDescription="No Telpon/HP"
-        android:hint="No Telpon/HP"
+        android:hint="@string/NoHandphone"
         android:gravity="center_horizontal"
         android:layout_gravity="center_horizontal" />
 
     <EditText
-        android:layout_width="384dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:inputType="textPostalAddress"
         android:id="@+id/alamat"
         android:layout_gravity="center_horizontal"
-        android:contentDescription="Alamat"
-        android:hint="Alamat"
+        android:hint="@string/Address"
         android:gravity="center_vertical|center_horizontal"
-        android:layout_weight="0.80" />
+        android:layout_height="150dp" />
 
     <Button
-        android:layout_width="386dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="Register"
+        android:text="@string/Register"
         android:id="@+id/submit_register"
         android:layout_gravity="center_horizontal"
         android:background="@android:color/holo_orange_dark"

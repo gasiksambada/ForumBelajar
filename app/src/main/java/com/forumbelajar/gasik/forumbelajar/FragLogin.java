@@ -36,12 +36,16 @@ public class FragLogin extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getActivity().setTitle("Login");
+
         comm = (Communicator) getActivity();
         Button login = (Button) getActivity().findViewById(R.id.submit_login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginData();
+//                loginData();
+                Toast.makeText(getActivity(), "Login success", Toast.LENGTH_SHORT).show();
+                comm.createSession("username",vUsername);
+                comm.goTo("SecondActivity");
             }
         });
     }
