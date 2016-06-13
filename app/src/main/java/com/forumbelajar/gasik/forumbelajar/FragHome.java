@@ -1,5 +1,6 @@
 package com.forumbelajar.gasik.forumbelajar;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  */
 public class FragHome extends Fragment {
     Communicator comm;
-    Firebase accountRef;
+    Firebase questionRef;
     ArrayList<String> list_question_arr;
     ArrayList<String> list_questionID_arr;
 
@@ -37,8 +38,8 @@ public class FragHome extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         Firebase.setAndroidContext(this.getActivity());
-        accountRef = new Firebase("https://forum-belajar.firebaseio.com/questions");
-        accountRef.orderByPriority().addValueEventListener(new ValueEventListener() {
+        questionRef = new Firebase("https://forum-belajar.firebaseio.com/questions");
+        questionRef.orderByPriority().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue() != null){
@@ -78,7 +79,11 @@ public class FragHome extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectionID = list_questionID_arr.get(position);
-                Toast.makeText(getActivity(), "Data klik "+selectionID, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), DetailQuestionActivity.class);
+                Bundle bQuestion = new Bundle();
+                bQuestion.putString("IdQuestion", selectionID);
+                intent.putExtras(bQuestion);
+                startActivity(intent);
             }
         });
     }

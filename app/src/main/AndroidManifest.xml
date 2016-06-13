@@ -19,13 +19,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SecondActivity"
-            android:background="@color/dim_foreground_disabled_material_dark">
+            android:name=".SecondActivity">
         </activity>
         <activity
-            android:name=".AddquestionActivity"
-            android:background="@color/dim_foreground_disabled_material_dark">
+            android:name=".AddquestionActivity">
         </activity>
+        <activity
+            android:name=".DetailQuestionActivity">
+        </activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

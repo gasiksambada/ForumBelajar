@@ -71,7 +71,9 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
     @Override
     public String getSession() {
-        return null;
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String vUsername = sharedpreferences.getString("username", "");
+        return vUsername;
     }
 
     public void goto_login() {

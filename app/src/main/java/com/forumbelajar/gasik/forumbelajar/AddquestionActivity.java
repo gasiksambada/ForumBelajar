@@ -32,7 +32,7 @@ public class AddquestionActivity extends AppCompatActivity implements View.OnCli
     Button submit_question;
     String vTitleQuestion,vQuestion,vUsername,vPhoto1,vPhoto2;
     EditText iTitleQuestion,iQuestion;
-    Firebase accountRef;
+    Firebase questionRef,photoRef;
     int photoid;
 
     public static final String MyPREFERENCES = "MyPrefs" ;
@@ -61,13 +61,10 @@ public class AddquestionActivity extends AppCompatActivity implements View.OnCli
         submit_question.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Please wait...", Toast.LENGTH_LONG).show();
                 vTitleQuestion = iTitleQuestion.getText().toString();
                 vQuestion = iQuestion.getText().toString();
-                accountRef = new Firebase("https://forum-belajar.firebaseio.com/questions/");
-
-
-                vPhoto1 = convertImg(R.id.photo1);
-                vPhoto2 = convertImg(R.id.photo2);
+                questionRef = new Firebase("https://forum-belajar.firebaseio.com/questions/");
 
                 Long dateCreated = System.currentTimeMillis()/1000;
                 Long Priority = 0-(dateCreated);
@@ -76,14 +73,20 @@ public class AddquestionActivity extends AppCompatActivity implements View.OnCli
                 dataQuestion.put("title", vTitleQuestion);
                 dataQuestion.put("question", vQuestion);
                 dataQuestion.put("username", vUsername);
-                dataQuestion.put("photo_1", vPhoto1);
-                dataQuestion.put("photo_2", vPhoto2);
                 dataQuestion.put("datecreated", dateCreated.toString());
-                Firebase question = accountRef.push();
+                Firebase question = questionRef.push();
                 question.setValue(dataQuestion);
                 question.setPriority(Priority);
-                Toast.makeText(v.getContext(), "Success add question", Toast.LENGTH_SHORT).show();
 
+                String IdQuestion = question.getKey();
+                photoRef = new Firebase("https://forum-belajar.firebaseio.com/photos/"+IdQuestion);
+                vPhoto1 = convertImg(R.id.photo1);
+                photoRef.child("photo_1").setValue(vPhoto1);
+
+                vPhoto2 = convertImg(R.id.photo2);
+                photoRef.child("photo_2").setValue(vPhoto2);
+
+                Toast.makeText(v.getContext(), "Success add question", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(AddquestionActivity.this, SecondActivity.class);
                 startActivity(intent);
             }

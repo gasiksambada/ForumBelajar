@@ -18,7 +18,6 @@ public class SecondActivity extends ActionBarActivity implements android.support
 
     private ViewPager tabsviewPager;
     private Tabsadapter mTabsAdapter;
-    private String vUsername = "noname";
 
     public static final String MyPREFERENCES = "MyPrefs" ;
     SharedPreferences sharedpreferences;
@@ -28,9 +27,6 @@ public class SecondActivity extends ActionBarActivity implements android.support
         super.onCreate(savedInstanceState);
         setContentView(R.layout.second_activity);
         setTitle("Forum Belajar");
-
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        vUsername = sharedpreferences.getString("username", "");
 
         tabsviewPager = (ViewPager) findViewById(R.id.pager);
         mTabsAdapter = new Tabsadapter(getSupportFragmentManager());
@@ -104,6 +100,8 @@ public class SecondActivity extends ActionBarActivity implements android.support
 
     @Override
     public String getSession() {
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String vUsername = sharedpreferences.getString("username", "");
         return vUsername;
     }
 }

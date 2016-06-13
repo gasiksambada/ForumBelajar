@@ -51,6 +51,7 @@ public class FragLogin extends Fragment {
     }
 
     public boolean loginData() {
+        Toast.makeText(getActivity(), "Please wait...", Toast.LENGTH_LONG).show();
         EditText iUsername = (EditText) getActivity().findViewById(R.id.username);
         final EditText iPassword = (EditText) getActivity().findViewById(R.id.password);
         vUsername = iUsername.getText().toString();
