@@ -1,8 +1,10 @@
 package com.forumbelajar.gasik.forumbelajar;
 
 import android.app.Fragment;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +24,7 @@ import org.json.JSONObject;
  */
 public class FragLogin extends Fragment {
     Communicator comm;
-    Firebase accountRef;
+    Firebase accountRef,photoRef,pointRef;
     String vUsername,vPassword,fPassword;
     JSONObject jsonObject;
 
@@ -81,8 +83,66 @@ public class FragLogin extends Fragment {
                         if(jsonObject != null){
                             fPassword = jsonObject.getString("password");
                             if(fPassword.equals(vPassword)){
-                                Toast.makeText(getActivity(), "Login success", Toast.LENGTH_SHORT).show();
+                                photoRef = new Firebase("https://forum-belajar.firebaseio.com/photos/"+vUsername);
+                                photoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if(dataSnapshot.child("profile_picture").getValue() != null){
+                                            String vPpic = dataSnapshot.child("profile_picture").getValue().toString();
+                                            if (vPpic != "") {
+                                                comm.createSession("profile_picture",vPpic);
+                                            }
+                                        }
+                                        if(dataSnapshot.child("background_timeline").getValue() != null){
+                                            String vTbackground = dataSnapshot.child("background_timeline").getValue().toString();
+                                            if (vTbackground != "") {
+                                                comm.createSession("background_timeline",vTbackground);
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(FirebaseError firebaseError) {
+
+                                    }
+                                });
+                                pointRef = new Firebase("https://forum-belajar.firebaseio.com/points/"+vUsername);
+                                pointRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if(dataSnapshot.child("question").getValue() != null){
+                                            String vPquestion = dataSnapshot.child("question").getValue().toString();
+                                            if (vPquestion != "") {
+                                                comm.createSession("point_question",vPquestion);
+                                            }
+                                        }
+                                        if(dataSnapshot.child("answer").getValue() != null){
+                                            String vPanswer = dataSnapshot.child("answer").getValue().toString();
+                                            if (vPanswer != "") {
+                                                comm.createSession("point_answer",vPanswer);
+                                            }
+                                        }
+                                        if(dataSnapshot.child("right_answer").getValue() != null){
+                                            String vPRanswer = dataSnapshot.child("right_answer").getValue().toString();
+                                            if (vPRanswer != "") {
+                                                comm.createSession("point_right_answer",vPRanswer);
+                                            }
+                                        }
+                                        if(dataSnapshot.child("score").getValue() != null){
+                                            String vPscore = dataSnapshot.child("score").getValue().toString();
+                                            if (vPscore != "") {
+                                                comm.createSession("point_score",vPscore);
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(FirebaseError firebaseError) {
+
+                                    }
+                                });
                                 comm.createSession("username",vUsername);
+                                Toast.makeText(getActivity(), "Login success", Toast.LENGTH_SHORT).show();
                                 comm.goTo("SecondActivity");
                             }else{
                                 Toast.makeText(getActivity(), "Wrong Password!", Toast.LENGTH_SHORT).show();

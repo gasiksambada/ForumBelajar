@@ -67,9 +67,13 @@ public class CustomAdapter extends BaseAdapter{
                 public void onClick(View v) {
                     holder.expandedImageView.setVisibility(View.VISIBLE);
                     holder.img.setVisibility(View.GONE);
+                    if(imageId2[position] != null) {
+                        holder.img2.setVisibility(View.GONE);
+                    }
                 }
             });
         }
+
         if(imageId2[position] != null) {
             holder.img2.setImageBitmap(imageId2[position]);
             holder.img2.setVisibility(View.VISIBLE);
@@ -80,6 +84,9 @@ public class CustomAdapter extends BaseAdapter{
                 public void onClick(View v) {
                     holder.expandedImageView2.setVisibility(View.VISIBLE);
                     holder.img2.setVisibility(View.GONE);
+                    if(imageId[position] != null) {
+                        holder.img.setVisibility(View.GONE);
+                    }
                 }
             });
         }
@@ -89,6 +96,9 @@ public class CustomAdapter extends BaseAdapter{
             public void onClick(View v) {
                 holder.expandedImageView.setVisibility(View.GONE);
                 holder.img.setVisibility(View.VISIBLE);
+                if(imageId2[position] != null) {
+                    holder.img2.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -97,6 +107,9 @@ public class CustomAdapter extends BaseAdapter{
             public void onClick(View v) {
                 holder.expandedImageView2.setVisibility(View.GONE);
                 holder.img2.setVisibility(View.VISIBLE);
+                if(imageId[position] != null) {
+                    holder.img.setVisibility(View.VISIBLE);
+                }
             }
         });
 

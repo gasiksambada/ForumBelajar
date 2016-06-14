@@ -19,6 +19,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -207,6 +208,9 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
             @Override
             public void onClick(View v) {
                 zoomImageFromThumb(photo_1, decodedByte1);
+                if(decodedByte2 != null){
+                    photo_2.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -214,6 +218,9 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
             @Override
             public void onClick(View v) {
                 zoomImageFromThumb(photo_2, decodedByte2);
+                if(decodedByte1 != null){
+                    photo_1.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -261,6 +268,16 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                super.onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -420,6 +437,12 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         thumbView.setAlpha(1f);
+                        if(decodedByte1 != null){
+                            photo_1.setVisibility(View.VISIBLE);
+                        }
+                        if(decodedByte2 != null){
+                            photo_2.setVisibility(View.VISIBLE);
+                        }
                         expandedImageView.setVisibility(View.GONE);
                         mCurrentAnimator = null;
                     }
@@ -427,6 +450,12 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
                     @Override
                     public void onAnimationCancel(Animator animation) {
                         thumbView.setAlpha(1f);
+                        if(decodedByte1 != null){
+                            photo_1.setVisibility(View.VISIBLE);
+                        }
+                        if(decodedByte2 != null){
+                            photo_2.setVisibility(View.VISIBLE);
+                        }
                         expandedImageView.setVisibility(View.GONE);
                         mCurrentAnimator = null;
                     }

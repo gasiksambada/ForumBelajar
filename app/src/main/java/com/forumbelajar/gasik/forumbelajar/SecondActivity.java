@@ -16,6 +16,7 @@ import android.widget.Toast;
  */
 public class SecondActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener,Communicator {
 
+    private static String vUsername,vPpic,vTbackground,vPqustion,vPanswer,vPRanswer,vPscore;
     private ViewPager tabsviewPager;
     private Tabsadapter mTabsAdapter;
 
@@ -27,6 +28,16 @@ public class SecondActivity extends ActionBarActivity implements android.support
         super.onCreate(savedInstanceState);
         setContentView(R.layout.second_activity);
         setTitle("Forum Belajar");
+
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        vUsername = sharedpreferences.getString("username", "");
+        vPpic = sharedpreferences.getString("profile_picture", "");
+        vTbackground = sharedpreferences.getString("background_timeline", "");
+
+        vPqustion = sharedpreferences.getString("point_question", "");
+        vPanswer = sharedpreferences.getString("point_answer", "");
+        vPRanswer = sharedpreferences.getString("point_right_answer", "");
+        vPscore = sharedpreferences.getString("point_score", "");
 
         tabsviewPager = (ViewPager) findViewById(R.id.pager);
         mTabsAdapter = new Tabsadapter(getSupportFragmentManager());
@@ -100,8 +111,35 @@ public class SecondActivity extends ActionBarActivity implements android.support
 
     @Override
     public String getSession() {
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        String vUsername = sharedpreferences.getString("username", "");
         return vUsername;
     }
+
+    public static String getCurrentUsername(){
+        return vUsername;
+    }
+
+    public static String getCurrentPpic(){
+        return vPpic;
+    }
+
+    public static String getCurrentTbackground(){
+        return vTbackground;
+    }
+
+    public static String getCurrentPquestion(){
+        return vPqustion;
+    }
+
+    public static String getCurrentPanswer(){
+        return vPanswer;
+    }
+
+    public static String getCurrentPRanswer(){
+        return vPRanswer;
+    }
+
+    public static String getCurrentPscore(){
+        return vPscore;
+    }
+
 }
