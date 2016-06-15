@@ -45,8 +45,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DetailQuestionActivity extends AppCompatActivity implements View.OnClickListener {
-    String IdQuestion, TitleQuestion, Question, Photo1, Photo2,sPhotoAnswer1,sPhotoAnswer2,vAnswer,vUsername;
-    Firebase questionRef,photoRef,answerRef;
+    String IdQuestion, TitleQuestion, Question, Photo1, Photo2,sPhotoAnswer1,sPhotoAnswer2,vAnswer,vUsername,vPanswer,vPscore;
+    Firebase questionRef,photoRef,answerRef,pointRef;
     private Animator mCurrentAnimator;
     private int mShortAnimationDuration;
     Bitmap decodedByte1,decodedByte2,decodedAnswerByte1,decodedAnswerByte2;
@@ -61,7 +61,7 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
     private static final int RESULT_LOAD_IMAGE = 1;
     String[] list_answer_arr = null,list_answerID_arr = null;
     Bitmap[] list_answerPhoto1_arr = null,list_answerPhoto2_arr = null;
-    int loop = 0;
+    int loop = 0,iPanswer,iPscore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +87,8 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         vUsername = sharedpreferences.getString("username", "");
+        vPanswer = sharedpreferences.getString("point_answer", "");
+        vPscore = sharedpreferences.getString("point_score", "");
 
         Firebase.setAndroidContext(this);
         questionRef = new Firebase("https://forum-belajar.firebaseio.com/questions/" + IdQuestion);
@@ -256,6 +258,18 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
                     Answer.setText("");
                     photo1.setImageDrawable(null);
                     photo2.setImageDrawable(null);
+
+                    pointRef = new Firebase("https://forum-belajar.firebaseio.com/points/"+vUsername);
+
+                    iPanswer = Integer.parseInt(vPanswer)+1;
+                    vPanswer = Integer.toString(iPanswer);
+                    pointRef.child("answer").setValue(iPanswer);
+                    createSession("point_answer",vPanswer);
+
+                    iPscore = Integer.parseInt(vPscore)+3;
+                    vPscore = Integer.toString(iPscore);
+                    pointRef.child("score").setValue(iPscore);
+                    createSession("point_score",vPscore);
 
                     Toast.makeText(v.getContext(), "Success add answer", Toast.LENGTH_SHORT).show();
                 }else{
@@ -504,5 +518,12 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+    }
+
+    public void createSession(String key, String Value) {
+        sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(key, Value);
+        editor.commit();
     }
 }

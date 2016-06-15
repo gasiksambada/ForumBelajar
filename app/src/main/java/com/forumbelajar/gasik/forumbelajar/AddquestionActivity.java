@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -30,10 +31,10 @@ public class AddquestionActivity extends AppCompatActivity implements View.OnCli
     private static final int RESULT_LOAD_IMAGE = 1;
     ImageView photo1,photo2;
     Button submit_question;
-    String vTitleQuestion,vQuestion,vUsername,vPhoto1,vPhoto2;
+    String vTitleQuestion,vQuestion,vUsername,vPhoto1,vPhoto2,vPquestion,vPscore;
     EditText iTitleQuestion,iQuestion;
-    Firebase questionRef,photoRef;
-    int photoid;
+    Firebase questionRef,photoRef,pointRef;
+    int photoid,iPquestion,iPscore;
 
     public static final String MyPREFERENCES = "MyPrefs" ;
     SharedPreferences sharedpreferences;
@@ -53,6 +54,8 @@ public class AddquestionActivity extends AppCompatActivity implements View.OnCli
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         vUsername = sharedpreferences.getString("username", "");
+        vPquestion = sharedpreferences.getString("point_question", "");
+        vPscore = sharedpreferences.getString("point_score", "");
 
         iTitleQuestion = (EditText) this.findViewById(R.id.title_question);
         iQuestion = (EditText) this.findViewById(R.id.question);
@@ -85,6 +88,18 @@ public class AddquestionActivity extends AppCompatActivity implements View.OnCli
 
                 vPhoto2 = convertImg(R.id.photo2);
                 photoRef.child("photo_2").setValue(vPhoto2);
+
+                pointRef = new Firebase("https://forum-belajar.firebaseio.com/points/"+vUsername);
+
+                iPquestion = Integer.parseInt(vPquestion)+1;
+                vPquestion = Integer.toString(iPquestion);
+                pointRef.child("question").setValue(iPquestion);
+                createSession("point_question",vPquestion);
+
+                iPscore = Integer.parseInt(vPscore)+2;
+                vPscore = Integer.toString(iPscore);    
+                pointRef.child("score").setValue(iPscore);
+                createSession("point_score",vPscore);
 
                 Toast.makeText(v.getContext(), "Success add question", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(AddquestionActivity.this, SecondActivity.class);
@@ -142,5 +157,12 @@ public class AddquestionActivity extends AppCompatActivity implements View.OnCli
             return vPhoto;
         }
         return "";
+    }
+
+    public void createSession(String key, String Value) {
+        sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(key, Value);
+        editor.commit();
     }
 }

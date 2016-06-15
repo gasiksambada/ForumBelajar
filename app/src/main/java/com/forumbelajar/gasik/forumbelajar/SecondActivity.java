@@ -16,7 +16,7 @@ import android.widget.Toast;
  */
 public class SecondActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener,Communicator {
 
-    private static String vUsername,vPpic,vTbackground,vPqustion,vPanswer,vPRanswer,vPscore;
+    private static String vUsername,vPpic,vTbackground,vPquestion,vPanswer,vPRanswer,vPscore;
     private ViewPager tabsviewPager;
     private Tabsadapter mTabsAdapter;
 
@@ -34,7 +34,7 @@ public class SecondActivity extends ActionBarActivity implements android.support
         vPpic = sharedpreferences.getString("profile_picture", "");
         vTbackground = sharedpreferences.getString("background_timeline", "");
 
-        vPqustion = sharedpreferences.getString("point_question", "");
+        vPquestion = sharedpreferences.getString("point_question", "");
         vPanswer = sharedpreferences.getString("point_answer", "");
         vPRanswer = sharedpreferences.getString("point_right_answer", "");
         vPscore = sharedpreferences.getString("point_score", "");
@@ -106,7 +106,10 @@ public class SecondActivity extends ActionBarActivity implements android.support
 
     @Override
     public void createSession(String key, String Value) {
-
+        sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(key, Value);
+        editor.commit();
     }
 
     @Override
@@ -127,7 +130,7 @@ public class SecondActivity extends ActionBarActivity implements android.support
     }
 
     public static String getCurrentPquestion(){
-        return vPqustion;
+        return vPquestion;
     }
 
     public static String getCurrentPanswer(){

@@ -37,10 +37,10 @@ import java.util.ArrayList;
 public class FragProfile extends Fragment implements View.OnClickListener {
     Communicator comm;
     private static final int RESULT_LOAD_IMAGE = 1;
-    Firebase accountRef,photoRef;
+    Firebase accountRef,photoRef,pointRef;
     ArrayList<String> list_question_arr;
     ArrayList<String> list_questionID_arr;
-    String vUsername,vPpic,vTbackground,vPqustion,vPanswer,vPRanswer,vPscore;
+    String vUsername,vPpic,vTbackground,vPquestion,vPanswer,vPRanswer,vPscore,fPquestion,fPanswer,fPRanswer,fPscore;
     ImageView Ppic,Tbackground;
 //    TextView Tbackground;
     int photoid;
@@ -64,19 +64,68 @@ public class FragProfile extends Fragment implements View.OnClickListener {
         vPpic = SecondActivity.getCurrentPpic();
         vTbackground = SecondActivity.getCurrentTbackground();
 
-//        TextView point_question = (TextView) getActivity().findViewById(R.id.point_answer);
-//        TextView point_question = (TextView) getActivity().findViewById(R.id.point_answer);
-//        TextView point_question = (TextView) getActivity().findViewById(R.id.point_answer);
-//        TextView point_question = (TextView) getActivity().findViewById(R.id.point_answer);
+//        vPquestion = SecondActivity.getCurrentPquestion();
+//        vPanswer = SecondActivity.getCurrentPanswer();
+//        vPRanswer = SecondActivity.getCurrentPRanswer();
+//        vPscore = SecondActivity.getCurrentPscore();
+//
+//        TextView point_question = (TextView) getActivity().findViewById(R.id.point_question);
+//        TextView point_answer = (TextView) getActivity().findViewById(R.id.point_answer);
+//        TextView point_right_answer = (TextView) getActivity().findViewById(R.id.point_right_answer);
+//        TextView point_score = (TextView) getActivity().findViewById(R.id.point_score);
+//
+//        point_question.setText(vPquestion);
+//        point_answer.setText(vPanswer);
+//        point_right_answer.setText(vPRanswer);
+//        point_score.setText(vPscore);
 
-        vPqustion = SecondActivity.getCurrentPquestion();
-        vPanswer = SecondActivity.getCurrentPanswer();
-        vPRanswer = SecondActivity.getCurrentPRanswer();
-        vPscore = SecondActivity.getCurrentPscore();
+        pointRef = new Firebase("https://forum-belajar.firebaseio.com/points/"+vUsername);
+        pointRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                TextView point_question = (TextView) getActivity().findViewById(R.id.point_question);
+                TextView point_answer = (TextView) getActivity().findViewById(R.id.point_answer);
+                TextView point_right_answer = (TextView) getActivity().findViewById(R.id.point_right_answer);
+                TextView point_score = (TextView) getActivity().findViewById(R.id.point_score);
+                if(dataSnapshot.child("question").getValue() != null){
+                    fPquestion = dataSnapshot.child("question").getValue().toString();
+                    if (fPquestion != "") {
+                        point_question.setText(fPquestion);
+//                        comm.createSession("point_question",fPquestion);
+                    }
+                }
+                if(dataSnapshot.child("answer").getValue() != null){
+                    fPanswer = dataSnapshot.child("answer").getValue().toString();
+                    if (fPanswer != "") {
+                        point_answer.setText(fPanswer);
+//                        comm.createSession("point_answer",fPanswer);
+                    }
+                }
+                if(dataSnapshot.child("right_answer").getValue() != null){
+                    fPRanswer = dataSnapshot.child("right_answer").getValue().toString();
+                    if (fPRanswer != "") {
+                        point_right_answer.setText(fPRanswer);
+//                        comm.createSession("point_right_answer",fPRanswer);
+                    }
+                }
+                if(dataSnapshot.child("score").getValue() != null){
+                    fPscore = dataSnapshot.child("score").getValue().toString();
+                    if (fPscore != "") {
+                        point_score.setText(fPscore);
+//                        comm.createSession("point_score",fPscore);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
 
         Log.d("From Profile : ",vPpic);
 
-        if (vPpic != null) {
+        if (vPpic != null && vPpic != "") {
             byte[] decPpic = android.util.Base64.decode(vPpic, android.util.Base64.DEFAULT);
             Bitmap bmpPpic = BitmapFactory.decodeByteArray(decPpic, 0, decPpic.length);
             BitmapDrawable bdPpic = new BitmapDrawable(getActivity().getResources(), bmpPpic);
@@ -84,7 +133,7 @@ public class FragProfile extends Fragment implements View.OnClickListener {
             iPpic.setImageDrawable(bdPpic);
         }
 
-        if (vTbackground != null) {
+        if (vTbackground != null && vPpic != "") {
             byte[] decTbackground = android.util.Base64.decode(vTbackground, android.util.Base64.DEFAULT);
             Bitmap bmpTbackground = BitmapFactory.decodeByteArray(decTbackground, 0, decTbackground.length);
             BitmapDrawable bdTbackground = new BitmapDrawable(getActivity().getResources(), bmpTbackground);
