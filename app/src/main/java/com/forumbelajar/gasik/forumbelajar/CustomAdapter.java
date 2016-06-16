@@ -3,11 +3,13 @@ package com.forumbelajar.gasik.forumbelajar;
 import android.animation.Animator;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -15,15 +17,18 @@ public class CustomAdapter extends BaseAdapter{
     String [] result;
     Context context;
     Bitmap [] imageId,imageId2;
+    int right_answer_pos;
     ImageView expandedImageView;
 
     private static LayoutInflater inflater = null;
-    public CustomAdapter(DetailQuestionActivity mainActivity, String[] prgmNameList, Bitmap[] prgmImages, Bitmap[] prgmImages2) {
+    public CustomAdapter(DetailQuestionActivity mainActivity,int pos_id, String[] prgmNameList, Bitmap[] prgmImages, Bitmap[] prgmImages2) {
+        right_answer_pos = pos_id;
         result = prgmNameList;
         context = mainActivity;
         imageId = prgmImages;
         imageId2 = prgmImages2;
         inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        Log.d("From Adapter : pos ",Integer.toString(right_answer_pos));
     }
     @Override
     public int getCount() {
@@ -44,6 +49,7 @@ public class CustomAdapter extends BaseAdapter{
     {
         TextView tv;
         ImageView img,img2,expandedImageView,expandedImageView2;
+        RelativeLayout checkmark;
     }
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -55,6 +61,10 @@ public class CustomAdapter extends BaseAdapter{
         holder.img2 = (ImageView) rowView.findViewById(R.id.showanswerphoto2);
         holder.expandedImageView = (ImageView) rowView.findViewById(R.id.expanded_image_answer);
         holder.expandedImageView2 = (ImageView) rowView.findViewById(R.id.expanded_image_answer2);
+        holder.checkmark = (RelativeLayout) rowView.findViewById(R.id.right_answer_box);
+        if(right_answer_pos == position){
+            holder.checkmark.setVisibility(View.VISIBLE);
+        }
         holder.tv.setText(result[position]);
 
         if(imageId[position] != null){

@@ -80,7 +80,7 @@ public class FragProfile extends Fragment implements View.OnClickListener {
 //        point_answer.setText(vPanswer);
 //        point_right_answer.setText(vPRanswer);
 //        point_score.setText(vPscore);
-
+        Firebase.setAndroidContext(this.getContext());
         pointRef = new Firebase("https://forum-belajar.firebaseio.com/points/"+vUsername);
         pointRef.addValueEventListener(new ValueEventListener() {
             @Override

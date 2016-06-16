@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -23,12 +25,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.firebase.client.DataSnapshot;
@@ -45,7 +49,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DetailQuestionActivity extends AppCompatActivity implements View.OnClickListener {
-    String IdQuestion, TitleQuestion, Question, Photo1, Photo2,sPhotoAnswer1,sPhotoAnswer2,vAnswer,vUsername,vPanswer,vPscore;
+    String IdQuestion, TitleQuestion, Question, Photo1, Photo2,sPhotoAnswer1,sPhotoAnswer2,vAnswer,vUsername,vPanswer,vPscore,vPRanswer,QcreatedBy,QRightAnswerId;
     Firebase questionRef,photoRef,answerRef,pointRef;
     private Animator mCurrentAnimator;
     private int mShortAnimationDuration;
@@ -61,7 +65,7 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
     private static final int RESULT_LOAD_IMAGE = 1;
     String[] list_answer_arr = null,list_answerID_arr = null;
     Bitmap[] list_answerPhoto1_arr = null,list_answerPhoto2_arr = null;
-    int loop = 0,iPanswer,iPscore;
+    int loop = 0,iPanswer,iPscore,iPRanswer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,6 +92,7 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         vUsername = sharedpreferences.getString("username", "");
         vPanswer = sharedpreferences.getString("point_answer", "");
+        vPRanswer = sharedpreferences.getString("point_right_answer", "");
         vPscore = sharedpreferences.getString("point_score", "");
 
         Firebase.setAndroidContext(this);
@@ -98,6 +103,12 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
                 if (dataSnapshot.getValue() != null) {
                     TitleQuestion = dataSnapshot.child("title").getValue().toString();
                     Question = dataSnapshot.child("question").getValue().toString();
+                    QcreatedBy = dataSnapshot.child("username").getValue().toString();
+                    if(dataSnapshot.child("right_answer_id").getValue() != null){
+                        QRightAnswerId = dataSnapshot.child("right_answer_id").getValue().toString();
+                    }else{
+                        QRightAnswerId = "";
+                    }
                     title_question = (TextView) findViewById(R.id.title_question);
                     question = (TextView) findViewById(R.id.question);
                     title_question.setText(TitleQuestion);
@@ -321,10 +332,75 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
         }
     }
 
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
+    }
+
     private void onFinishGetAnswer(){
+        int loop_pos = 0,pos_answer_id = -1;
+        for(String answerId : list_answerID_arr){
+            if(answerId.equals(QRightAnswerId)){
+                pos_answer_id = loop_pos;
+                break;
+            }
+            loop_pos++;
+        }
+        Log.d("From Activity : pos ",Integer.toString(pos_answer_id));
         ListView list_answer = (ListView) findViewById(R.id.list_answer);
-        list_answer.setAdapter(new CustomAdapter(DetailQuestionActivity.this, list_answer_arr,list_answerPhoto1_arr,list_answerPhoto2_arr));
+        list_answer.setAdapter(new CustomAdapter(DetailQuestionActivity.this,pos_answer_id, list_answer_arr,list_answerPhoto1_arr,list_answerPhoto2_arr));
         setListViewHeightBasedOnChildren(list_answer);
+
+        list_answer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
+                final String selectionID = list_answerID_arr[position];
+                if(vUsername.equals(QcreatedBy)){
+                    if(QRightAnswerId.equals("")){
+                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which){
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                            questionRef = new Firebase("https://forum-belajar.firebaseio.com/questions/" + IdQuestion);
+                                            questionRef.child("right_answer_id").setValue(selectionID);
+                                            RelativeLayout checkmark = (RelativeLayout) view.findViewById(R.id.right_answer_box);
+                                            checkmark.setVisibility(View.VISIBLE);
+
+                                            pointRef = new Firebase("https://forum-belajar.firebaseio.com/points/"+vUsername);
+
+                                            iPRanswer = Integer.parseInt(vPRanswer)+1;
+                                            vPRanswer = Integer.toString(iPRanswer);
+                                            pointRef.child("right_answer").setValue(iPRanswer);
+                                            createSession("point_right_answer",vPRanswer);
+
+                                            iPscore = Integer.parseInt(vPscore)+5;
+                                            vPscore = Integer.toString(iPscore);
+                                            pointRef.child("score").setValue(iPscore);
+                                            createSession("point_score",vPscore);
+                                        break;
+
+                                    case DialogInterface.BUTTON_NEGATIVE:
+                                        //No button clicked
+                                        break;
+                                }
+                            }
+                        };
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setMessage("You want mark this as right answer?").setPositiveButton("Yes", dialogClickListener)
+                                .setNegativeButton("No", dialogClickListener).show();
+                    }
+                }
+            }
+        });
     }
 
     public String convertImg(int Resources) {

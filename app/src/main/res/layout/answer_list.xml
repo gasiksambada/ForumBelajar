@@ -9,11 +9,27 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
+        android:text="Test Doank"
         android:id="@+id/answer"
         android:layout_gravity="center_horizontal"
         android:textSize="18dp"
         android:layout_marginTop="20dp"/>
+
+    <RelativeLayout
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:gravity="top|right"
+        android:layout_gravity="top|right"
+        android:layout_marginTop="-20dp"
+        android:visibility="gone"
+        android:id="@+id/right_answer_box">
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/checkmark"
+            android:contentDescription="Right Answer"
+            />
+    </RelativeLayout>
 
     <ImageView
     android:id="@+id/expanded_image_answer"
