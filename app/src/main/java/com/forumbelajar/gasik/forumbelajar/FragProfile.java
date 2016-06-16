@@ -18,7 +18,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -163,6 +165,11 @@ public class FragProfile extends Fragment implements View.OnClickListener {
                     ListView list_question = (ListView) getActivity().findViewById(R.id.list_your_question);
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,list_question_arr);
                     list_question.setAdapter(adapter);
+                    Boolean setHeightList = setListViewHeightBasedOnChildren(list_question);
+                    if(setHeightList){
+                        ScrollView SV = (ScrollView) getActivity().findViewById(R.id.container);
+                        SV.scrollTo(0,0);
+                    }
                 }
             }
 
@@ -260,5 +267,27 @@ public class FragProfile extends Fragment implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    public static boolean setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return false;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+
+        return true;
     }
 }
