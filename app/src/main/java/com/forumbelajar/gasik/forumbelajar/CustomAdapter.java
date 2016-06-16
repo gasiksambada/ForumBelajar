@@ -28,7 +28,6 @@ public class CustomAdapter extends BaseAdapter{
         imageId = prgmImages;
         imageId2 = prgmImages2;
         inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        Log.d("From Adapter : pos ",Integer.toString(right_answer_pos));
     }
     @Override
     public int getCount() {

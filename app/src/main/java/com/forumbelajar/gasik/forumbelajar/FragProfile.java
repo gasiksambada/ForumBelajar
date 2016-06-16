@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -42,10 +45,11 @@ public class FragProfile extends Fragment implements View.OnClickListener {
     Firebase accountRef,photoRef,pointRef;
     ArrayList<String> list_question_arr;
     ArrayList<String> list_questionID_arr;
-    String vUsername,vPpic,vTbackground,vPquestion,vPanswer,vPRanswer,vPscore,fPquestion,fPanswer,fPRanswer,fPscore;
+    String vUsername,vPpic,vTbackground,fPquestion,fPanswer,fPRanswer,fPscore;
     ImageView Ppic,Tbackground;
-//    TextView Tbackground;
     int photoid;
+    ListView list_question_profile;
+    ArrayAdapter<String> adapter_profile;
 
     @Nullable
     @Override
@@ -66,20 +70,6 @@ public class FragProfile extends Fragment implements View.OnClickListener {
         vPpic = SecondActivity.getCurrentPpic();
         vTbackground = SecondActivity.getCurrentTbackground();
 
-//        vPquestion = SecondActivity.getCurrentPquestion();
-//        vPanswer = SecondActivity.getCurrentPanswer();
-//        vPRanswer = SecondActivity.getCurrentPRanswer();
-//        vPscore = SecondActivity.getCurrentPscore();
-//
-//        TextView point_question = (TextView) getActivity().findViewById(R.id.point_question);
-//        TextView point_answer = (TextView) getActivity().findViewById(R.id.point_answer);
-//        TextView point_right_answer = (TextView) getActivity().findViewById(R.id.point_right_answer);
-//        TextView point_score = (TextView) getActivity().findViewById(R.id.point_score);
-//
-//        point_question.setText(vPquestion);
-//        point_answer.setText(vPanswer);
-//        point_right_answer.setText(vPRanswer);
-//        point_score.setText(vPscore);
         Firebase.setAndroidContext(this.getContext());
         pointRef = new Firebase("https://forum-belajar.firebaseio.com/points/"+vUsername);
         pointRef.addValueEventListener(new ValueEventListener() {
@@ -93,28 +83,24 @@ public class FragProfile extends Fragment implements View.OnClickListener {
                     fPquestion = dataSnapshot.child("question").getValue().toString();
                     if (fPquestion != "") {
                         point_question.setText(fPquestion);
-//                        comm.createSession("point_question",fPquestion);
                     }
                 }
                 if(dataSnapshot.child("answer").getValue() != null){
                     fPanswer = dataSnapshot.child("answer").getValue().toString();
                     if (fPanswer != "") {
                         point_answer.setText(fPanswer);
-//                        comm.createSession("point_answer",fPanswer);
                     }
                 }
                 if(dataSnapshot.child("right_answer").getValue() != null){
                     fPRanswer = dataSnapshot.child("right_answer").getValue().toString();
                     if (fPRanswer != "") {
                         point_right_answer.setText(fPRanswer);
-//                        comm.createSession("point_right_answer",fPRanswer);
                     }
                 }
                 if(dataSnapshot.child("score").getValue() != null){
                     fPscore = dataSnapshot.child("score").getValue().toString();
                     if (fPscore != "") {
                         point_score.setText(fPscore);
-//                        comm.createSession("point_score",fPscore);
                     }
                 }
             }
@@ -162,10 +148,10 @@ public class FragProfile extends Fragment implements View.OnClickListener {
                         }
                     }
 
-                    ListView list_question = (ListView) getActivity().findViewById(R.id.list_your_question);
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,list_question_arr);
-                    list_question.setAdapter(adapter);
-                    Boolean setHeightList = setListViewHeightBasedOnChildren(list_question);
+                    list_question_profile = (ListView) getActivity().findViewById(R.id.list_your_question);
+                    adapter_profile = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,list_question_arr);
+                    list_question_profile.setAdapter(adapter_profile);
+                    Boolean setHeightList = setListViewHeightBasedOnChildren(list_question_profile);
                     if(setHeightList){
                         ScrollView SV = (ScrollView) getActivity().findViewById(R.id.container);
                         SV.scrollTo(0,0);
@@ -191,6 +177,26 @@ public class FragProfile extends Fragment implements View.OnClickListener {
                 startActivity(intent);
             }
         });
+
+        EditText SearchBox = (EditText) getActivity().findViewById(R.id.searchbox_profile);
+        TextWatcher fieldValidatorTextWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d("Search :",s.toString());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                adapter_profile.getFilter().filter(s);
+            }
+        };
+        SearchBox.addTextChangedListener(fieldValidatorTextWatcher);
     }
 
     @Override

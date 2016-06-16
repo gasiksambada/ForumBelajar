@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -66,6 +67,7 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
     String[] list_answer_arr = null,list_answerID_arr = null;
     Bitmap[] list_answerPhoto1_arr = null,list_answerPhoto2_arr = null;
     int loop = 0,iPanswer,iPscore,iPRanswer;
+    ProgressDialog progress;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,6 +102,7 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
         questionRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Boolean loadingRes = loading(true);
                 if (dataSnapshot.getValue() != null) {
                     TitleQuestion = dataSnapshot.child("title").getValue().toString();
                     Question = dataSnapshot.child("question").getValue().toString();
@@ -200,6 +203,8 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
                                 }
 //                                ArrayAdapter<String> adapter = new ArrayAdapter<>(DetailQuestionActivity.this, android.R.layout.simple_list_item_1,list_answer_arr);
 //                                list_answer.setAdapter(adapter);
+                            }else{
+                                Boolean loadingRes = loading(false);
                             }
                         }
 
@@ -353,7 +358,7 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
             }
             loop_pos++;
         }
-        Log.d("From Activity : pos ",Integer.toString(pos_answer_id));
+
         ListView list_answer = (ListView) findViewById(R.id.list_answer);
         list_answer.setAdapter(new CustomAdapter(DetailQuestionActivity.this,pos_answer_id, list_answer_arr,list_answerPhoto1_arr,list_answerPhoto2_arr));
         setListViewHeightBasedOnChildren(list_answer);
@@ -401,6 +406,8 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
                 }
             }
         });
+
+        Boolean loadingRes = loading(false);
     }
 
     public String convertImg(int Resources) {
@@ -554,6 +561,20 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
                 mCurrentAnimator = set;
             }
         });
+    }
+
+    public boolean loading(Boolean status) {
+        if(status){
+            progress = new ProgressDialog(this);
+            progress.setCancelable(false);
+            progress.setTitle("Loading");
+            progress.setMessage("Wait while loading...");
+            progress.show();
+        }else{
+            progress.dismiss();
+        }
+
+        return false;
     }
 
     @Override

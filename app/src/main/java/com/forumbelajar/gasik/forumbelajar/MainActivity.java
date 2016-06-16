@@ -2,6 +2,7 @@ package com.forumbelajar.gasik.forumbelajar;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -90,5 +91,19 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         transaction.replace(R.id.main_fragment, frag_register, "register");
         transaction.addToBackStack("addregister");
         transaction.commit();
+    }
+
+    public boolean loading(Boolean status) {
+        ProgressDialog progress = new ProgressDialog(this);
+        if(status){
+            progress.setCancelable(false);
+            progress.setTitle("Loading");
+            progress.setMessage("Wait while loading...");
+            progress.show();
+        }else{
+            progress.dismiss();
+        }
+
+        return false;
     }
 }

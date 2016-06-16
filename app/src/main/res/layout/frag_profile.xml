@@ -156,6 +156,16 @@
 
         </LinearLayout>
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/searchbox_profile"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:hint="@string/SearchQuestion"
+                android:gravity="center_horizontal"
+                />
+
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
