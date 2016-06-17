@@ -14,16 +14,17 @@ import android.widget.TextView;
 
 
 public class CustomAdapter extends BaseAdapter{
-    String [] result;
+    String [] result,result2;
     Context context;
     Bitmap [] imageId,imageId2;
     int right_answer_pos;
     ImageView expandedImageView;
 
     private static LayoutInflater inflater = null;
-    public CustomAdapter(DetailQuestionActivity mainActivity,int pos_id, String[] prgmNameList, Bitmap[] prgmImages, Bitmap[] prgmImages2) {
+    public CustomAdapter(DetailQuestionActivity mainActivity,int pos_id, String[] prgmNameFrom, String[] prgmNameList, Bitmap[] prgmImages, Bitmap[] prgmImages2) {
         right_answer_pos = pos_id;
         result = prgmNameList;
+        result2 = prgmNameFrom;
         context = mainActivity;
         imageId = prgmImages;
         imageId2 = prgmImages2;
@@ -46,7 +47,7 @@ public class CustomAdapter extends BaseAdapter{
 
     public class Holder
     {
-        TextView tv;
+        TextView tv,tv2;
         ImageView img,img2,expandedImageView,expandedImageView2;
         RelativeLayout checkmark;
     }
@@ -56,6 +57,7 @@ public class CustomAdapter extends BaseAdapter{
         final View rowView;
         rowView = inflater.inflate(R.layout.answer_list, null);
         holder.tv = (TextView) rowView.findViewById(R.id.answer);
+        holder.tv2 = (TextView) rowView.findViewById(R.id.answer_from);
         holder.img = (ImageView) rowView.findViewById(R.id.showanswerphoto1);
         holder.img2 = (ImageView) rowView.findViewById(R.id.showanswerphoto2);
         holder.expandedImageView = (ImageView) rowView.findViewById(R.id.expanded_image_answer);
@@ -65,6 +67,7 @@ public class CustomAdapter extends BaseAdapter{
             holder.checkmark.setVisibility(View.VISIBLE);
         }
         holder.tv.setText(result[position]);
+        holder.tv2.setText(result2[position]);
 
         if(imageId[position] != null){
             holder.img.setImageBitmap(imageId[position]);

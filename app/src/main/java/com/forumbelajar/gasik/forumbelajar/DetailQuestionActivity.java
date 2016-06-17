@@ -65,7 +65,7 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
     SharedPreferences sharedpreferences;
     int photoid;
     private static final int RESULT_LOAD_IMAGE = 1;
-    String[] list_answer_arr = null,list_answerID_arr = null;
+    String[] list_answer_arr = null,list_answerID_arr = null,list_answer_from_arr = null;
     Bitmap[] list_answerPhoto1_arr = null,list_answerPhoto2_arr = null;
     int loop = 0,iPanswer,iPscore,iPRanswer;
     ProgressDialog progress;
@@ -162,6 +162,7 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
                                 final int total_child = (int) dataSnapshot.getChildrenCount();
                                 loop = 0;
                                 list_answer_arr = new String[total_child];
+                                list_answer_from_arr = new String[total_child];
                                 list_answerID_arr = new String[total_child];
                                 list_answerPhoto1_arr = new Bitmap[total_child];
                                 list_answerPhoto2_arr = new Bitmap[total_child];
@@ -169,7 +170,8 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
                                     String answer = child.child("answer").getValue().toString();
                                     String from_username = child.child("username").getValue().toString();
                                     String ID_answer = child.getKey().toString();
-                                    list_answer_arr[loop] = "From "+from_username+" : "+System.getProperty("line.separator")+answer;
+                                    list_answer_arr[loop] = answer;
+                                    list_answer_from_arr[loop] = "From "+from_username+" : ";
                                     list_answerID_arr[loop] = ID_answer;
                                     final int loop2 = loop;
 
@@ -371,7 +373,7 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
         }
 
         ListView list_answer = (ListView) findViewById(R.id.list_answer);
-        list_answer.setAdapter(new CustomAdapter(DetailQuestionActivity.this,pos_answer_id, list_answer_arr,list_answerPhoto1_arr,list_answerPhoto2_arr));
+        list_answer.setAdapter(new CustomAdapter(DetailQuestionActivity.this,pos_answer_id,list_answer_from_arr, list_answer_arr,list_answerPhoto1_arr,list_answerPhoto2_arr));
         setListViewHeightBasedOnChildren(list_answer);
 
         list_answer.setOnItemClickListener(new AdapterView.OnItemClickListener() {

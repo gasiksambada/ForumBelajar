@@ -42,7 +42,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
             android:contentDescription="@string/ChoosePhoto"
-            android:background="@drawable/upload_photo"/>
+            android:src="@drawable/upload_photo"/>
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -51,7 +51,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
             android:contentDescription="@string/ChoosePhoto"
-            android:background="@drawable/upload_photo"/>
+            android:src="@drawable/upload_photo"/>
     </LinearLayout>
 
     <Button
