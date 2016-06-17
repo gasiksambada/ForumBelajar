@@ -10,16 +10,19 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
  * Created by Gasik on 6/8/2016.
  */
-public class SecondActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener,Communicator {
+public class SecondActivity extends AppCompatActivity implements android.support.v7.app.ActionBar.TabListener,Communicator {
 
     private static String vUsername,vPpic,vTbackground,vPquestion,vPanswer,vPRanswer,vPscore;
     private ViewPager tabsviewPager;
     private Tabsadapter mTabsAdapter;
+    TextView title;
 
     public static final String MyPREFERENCES = "MyPrefs" ;
     SharedPreferences sharedpreferences;
@@ -27,8 +30,13 @@ public class SecondActivity extends ActionBarActivity implements android.support
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.custom_actionbar);
+
         setContentView(R.layout.second_activity);
-        setTitle("Forum Belajar");
+        title = (TextView) findViewById(R.id.title);
+        title.setText("FORUM BELAJAR");
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         vUsername = sharedpreferences.getString("username", "");

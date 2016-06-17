@@ -60,7 +60,7 @@
         android:text="@string/Submit"
         android:id="@+id/submit_question"
         android:layout_gravity="center_horizontal"
-        android:background="@android:color/holo_red_dark"
+        android:background="@drawable/button_style_2"
         android:textColor="#ffffff" />
 
 </LinearLayout>

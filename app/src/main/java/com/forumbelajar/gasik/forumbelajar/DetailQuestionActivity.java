@@ -18,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
@@ -55,8 +56,8 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
     private Animator mCurrentAnimator;
     private int mShortAnimationDuration;
     Bitmap decodedByte1,decodedByte2,decodedAnswerByte1,decodedAnswerByte2;
-    ImageView photo_1,photo_2,expandedImageView,photo1,photo2;
-    TextView title_question,question;
+    ImageView photo_1,photo_2,expandedImageView,photo1,photo2,bButton;
+    TextView title_question,question,title;
     Button SubmitAnswer;
     EditText Answer;
     private GoogleApiClient client;
@@ -72,10 +73,17 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.custom_actionbar);
+
         setContentView(R.layout.detailquestion_activity);
-        setTitle("Detail Question");
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        title = (TextView) findViewById(R.id.title);
+        title.setText("DETAIL QUESTION");
+
+        bButton = (ImageView) findViewById(R.id.back_button);
+        bButton.setVisibility(View.VISIBLE);
+        bButton.setOnClickListener(this);
 
         Bundle bQuestion = getIntent().getExtras();
         IdQuestion = "";
@@ -331,6 +339,9 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
             case R.id.photo2:
                 photoid = R.id.photo2;
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+                break;
+            case R.id.back_button:
+                finish();
                 break;
             default:
                 break;

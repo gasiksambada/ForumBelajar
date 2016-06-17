@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
@@ -29,11 +31,12 @@ import java.util.Map;
  */
 public class AddquestionActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int RESULT_LOAD_IMAGE = 1;
-    ImageView photo1,photo2;
+    ImageView photo1,photo2,bButton;
     Button submit_question;
     String vTitleQuestion,vQuestion,vUsername,vPhoto1,vPhoto2,vPquestion,vPscore;
     EditText iTitleQuestion,iQuestion;
     Firebase questionRef,photoRef,pointRef;
+    TextView title;
     int photoid,iPquestion,iPscore;
 
     public static final String MyPREFERENCES = "MyPrefs" ;
@@ -42,10 +45,17 @@ public class AddquestionActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.custom_actionbar);
+
         setContentView(R.layout.addquestion_activity);
-        setTitle("Add Question");
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        title = (TextView) findViewById(R.id.title);
+        title.setText("ADD QUESTION");
+
+        bButton = (ImageView) findViewById(R.id.back_button);
+        bButton.setVisibility(View.VISIBLE);
+        bButton.setOnClickListener(this);
 
         photo1 = (ImageView) this.findViewById(R.id.photo1);
         photo2 = (ImageView) this.findViewById(R.id.photo2);
@@ -139,6 +149,9 @@ public class AddquestionActivity extends AppCompatActivity implements View.OnCli
             case R.id.photo2:
                 photoid = R.id.photo2;
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+                break;
+            case R.id.back_button:
+                finish();
                 break;
             default:
                 break;
