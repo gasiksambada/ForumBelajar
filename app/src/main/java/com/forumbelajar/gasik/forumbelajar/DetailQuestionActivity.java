@@ -55,7 +55,7 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
     Firebase questionRef,photoRef,answerRef,pointRef;
     private Animator mCurrentAnimator;
     private int mShortAnimationDuration;
-    Bitmap decodedByte1,decodedByte2,decodedAnswerByte1,decodedAnswerByte2;
+    Bitmap decodedByte1,decodedByte2;
     ImageView photo_1,photo_2,expandedImageView,photo1,photo2,bButton;
     TextView title_question,question,title;
     Button SubmitAnswer;
@@ -101,9 +101,9 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         vUsername = sharedpreferences.getString("username", "");
-        vPanswer = sharedpreferences.getString("point_answer", "");
-        vPRanswer = sharedpreferences.getString("point_right_answer", "");
-        vPscore = sharedpreferences.getString("point_score", "");
+        vPanswer = sharedpreferences.getString("point_answer", "0");
+        vPRanswer = sharedpreferences.getString("point_right_answer", "0");
+        vPscore = sharedpreferences.getString("point_score", "0");
 
         Firebase.setAndroidContext(this);
         questionRef = new Firebase("https://forum-belajar.firebaseio.com/questions/" + IdQuestion);
@@ -170,8 +170,10 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
                                     String answer = child.child("answer").getValue().toString();
                                     String from_username = child.child("username").getValue().toString();
                                     String ID_answer = child.getKey().toString();
+                                    final Bitmap[] decodedAnswerByte1 = new Bitmap[1];
+                                    final Bitmap[] decodedAnswerByte2 = new Bitmap[1];
                                     list_answer_arr[loop] = answer;
-                                    list_answer_from_arr[loop] = "From "+from_username+" : ";
+                                    list_answer_from_arr[loop] = from_username;
                                     list_answerID_arr[loop] = ID_answer;
                                     final int loop2 = loop;
 
@@ -184,7 +186,7 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
                                                 String Photo1 = dataSnapshot.child("photo_1").getValue().toString();
                                                 if (Photo1 != "") {
                                                     byte[] decodedString = Base64.decode(Photo1, Base64.DEFAULT);
-                                                    decodedAnswerByte1 = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                                                    decodedAnswerByte1[0] = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                                                 }
                                             }
 
@@ -192,12 +194,12 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
                                                 String Photo2 = dataSnapshot.child("photo_2").getValue().toString();
                                                 if (Photo2 != "") {
                                                     byte[] decodedString = Base64.decode(Photo2, Base64.DEFAULT);
-                                                    decodedAnswerByte2 = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                                                    decodedAnswerByte2[0] = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                                                 }
                                             }
 
-                                            list_answerPhoto1_arr[loop2] = (decodedAnswerByte1);
-                                            list_answerPhoto2_arr[loop2] = (decodedAnswerByte2);
+                                            list_answerPhoto1_arr[loop2] = (decodedAnswerByte1[0]);
+                                            list_answerPhoto2_arr[loop2] = (decodedAnswerByte2[0]);
 
                                             if((loop2+1) == total_child){
                                                 onFinishGetAnswer();
@@ -380,6 +382,7 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
                 final String selectionID = list_answerID_arr[position];
+                final String selectionUser = list_answer_from_arr[position];
                 if(vUsername.equals(QcreatedBy)){
                     if(QRightAnswerId.equals("")){
                         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -392,7 +395,7 @@ public class DetailQuestionActivity extends AppCompatActivity implements View.On
                                             RelativeLayout checkmark = (RelativeLayout) view.findViewById(R.id.right_answer_box);
                                             checkmark.setVisibility(View.VISIBLE);
 
-                                            pointRef = new Firebase("https://forum-belajar.firebaseio.com/points/"+vUsername);
+                                            pointRef = new Firebase("https://forum-belajar.firebaseio.com/points/"+selectionUser);
 
                                             iPRanswer = Integer.parseInt(vPRanswer)+1;
                                             vPRanswer = Integer.toString(iPRanswer);

@@ -38,6 +38,8 @@ public class SecondActivity extends AppCompatActivity implements android.support
         title = (TextView) findViewById(R.id.title);
         title.setText("FORUM BELAJAR");
 
+        clear();
+
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         vUsername = sharedpreferences.getString("username", "");
         vPpic = sharedpreferences.getString("profile_picture", "");
@@ -118,6 +120,14 @@ public class SecondActivity extends AppCompatActivity implements android.support
         sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString(key, Value);
+        editor.commit();
+    }
+
+    public void clear()
+    {
+        sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.clear();
         editor.commit();
     }
 

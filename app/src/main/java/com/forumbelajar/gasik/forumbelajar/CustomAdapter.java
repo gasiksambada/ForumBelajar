@@ -67,7 +67,7 @@ public class CustomAdapter extends BaseAdapter{
             holder.checkmark.setVisibility(View.VISIBLE);
         }
         holder.tv.setText(result[position]);
-        holder.tv2.setText(result2[position]);
+        holder.tv2.setText("From "+result2[position]+" : ");
 
         if(imageId[position] != null){
             holder.img.setImageBitmap(imageId[position]);

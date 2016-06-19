@@ -30,7 +30,7 @@ import java.util.Map;
  */
 public class FragRegister extends Fragment {
     Communicator comm;
-    Firebase accountRef;
+    Firebase accountRef,pointRef;
     String vUsername,vPassword,vIdLPIA,vTempatLahir,vNoTelp,vAlamat,vTanggalLahir;
 
     @Nullable
@@ -125,6 +125,13 @@ public class FragRegister extends Fragment {
                     accountData.child("no_telp").setValue(vNoTelp);
                     accountData.child("alamat").setValue(vAlamat);
                     accountData.child("tanggal_lahir").setValue(vTanggalLahir);
+
+                    pointRef = new Firebase("https://forum-belajar.firebaseio.com/points/"+vUsername);
+                    pointRef.child("question").setValue(0);
+                    pointRef.child("answer").setValue(0);
+                    pointRef.child("right_answer").setValue(0);
+                    pointRef.child("score").setValue(0);
+
                     Toast.makeText(getActivity(), "Success register account", Toast.LENGTH_SHORT).show();
                     comm = (Communicator) getActivity();
                     comm.respond("login_page");

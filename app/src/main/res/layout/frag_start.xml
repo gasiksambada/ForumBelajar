@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical|center_horizontal"
-    android:layout_marginLeft="30dp"
-    android:layout_marginRight="30dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:focusable="true"
     android:focusableInTouchMode="true">
 
@@ -16,8 +16,8 @@
         android:src="@drawable/forumbelajar"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:layout_marginBottom="40dp"/>
 
     <Button
