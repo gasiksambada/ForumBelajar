@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +35,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
     ProgressDialog progress;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +43,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.custom_actionbar);
+
+        sharedpreferences = getSharedPreferences(LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        editor = sharedpreferences.edit();
+
+//        clear();
 
         setContentView(R.layout.frag_login);
         title = (TextView) findViewById(R.id.title);
@@ -92,6 +99,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if(dataSnapshot.child("password").getValue() != null) {
                     fPassword = dataSnapshot.child("password").getValue().toString();
                     if(fPassword.equals(vPassword)){
+                        createSession("username",vUsername);
                         photoRef = new Firebase("https://forum-belajar.firebaseio.com/photos/"+vUsername);
                         photoRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -100,6 +108,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     String vPpic = dataSnapshot.child("profile_picture").getValue().toString();
                                     if (vPpic != "") {
                                         createSession("profile_picture",vPpic);
+                                        Log.d("profile_picture 1:",getSession("profile_picture"));
                                     }
                                 }
                                 if(dataSnapshot.child("background_timeline").getValue() != null){
@@ -151,7 +160,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             }
                         });
                         loading(false);
-                        createSession("username",vUsername);
                         Toast.makeText(LoginActivity.this, "Login success!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, SecondActivity.class);
                         startActivity(intent);
@@ -206,9 +214,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void createSession(String key, String Value) {
-        sharedpreferences = getSharedPreferences(LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString(key, Value);
+        editor.commit();
+    }
+
+    public String getSession(String Value) {
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String vSession = sharedpreferences.getString(Value, "");
+        return vSession;
+    }
+
+    public void clear()
+    {
+        sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        editor = sharedpreferences.edit();
+        editor.clear();
         editor.commit();
     }
 }

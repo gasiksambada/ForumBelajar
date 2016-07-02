@@ -64,6 +64,7 @@ public class AddquestionActivity extends AppCompatActivity implements View.OnCli
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         vUsername = sharedpreferences.getString("username", "");
+        Log.d("AQ :","test lalalala"+vUsername);
         vPquestion = sharedpreferences.getString("point_question", "0");
         vPscore = sharedpreferences.getString("point_score", "0");
 

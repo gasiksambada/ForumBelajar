@@ -11,8 +11,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Map;
 
 /**
  * Created by Gasik on 6/8/2016.
@@ -38,11 +41,10 @@ public class SecondActivity extends AppCompatActivity implements android.support
         title = (TextView) findViewById(R.id.title);
         title.setText("FORUM BELAJAR");
 
-        clear();
-
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         vUsername = sharedpreferences.getString("username", "");
-        vPpic = sharedpreferences.getString("profile_picture", "");
+        vPpic = sharedpreferences.getString("profile_picture", "test");
+        Log.d("profile_picture 2:",vPpic);
         vTbackground = sharedpreferences.getString("background_timeline", "");
 
         vPquestion = sharedpreferences.getString("point_question", "");
@@ -120,14 +122,6 @@ public class SecondActivity extends AppCompatActivity implements android.support
         sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString(key, Value);
-        editor.commit();
-    }
-
-    public void clear()
-    {
-        sharedpreferences = getSharedPreferences(MainActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.clear();
         editor.commit();
     }
 
